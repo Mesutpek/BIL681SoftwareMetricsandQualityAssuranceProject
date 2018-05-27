@@ -5,16 +5,29 @@
  */
 package smqa_project;
 
+import java.awt.List;
+import java.util.ArrayList;
+import java.util.Collections;
+import javafx.print.Collation;
+import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
+import sun.java2d.loops.Blit;
+
 /**
  *
  * @author Mesut
  */
 public class Anasayfa extends javax.swing.JFrame {
- 
+  ArrayList<Urunler> lst=new ArrayList<Urunler>();
+  ArrayList<Stok> lststok=new ArrayList<Stok>();
+  ArrayList<Stok> lstsatis=new ArrayList<Stok>();
     public Anasayfa() {
         initComponents();
-      
-        
+       churunler.removeAllItems(); // ürünsil 
+       churunler1.removeAllItems(); // rakam olarak fiyat güncelle
+       churunler2.removeAllItems(); //yüzde olarak fiyat güncelle
+       churunler3.removeAllItems(); // stok işlemleri
+       chstokdus.removeAllItems(); //stok işlemleri
     }
 
     /**
@@ -35,11 +48,9 @@ public class Anasayfa extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         btnkazancrapormenu = new javax.swing.JButton();
         Jpurun = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         btnkaydet = new javax.swing.JButton();
-        txturunkod = new javax.swing.JTextField();
         txturunad = new javax.swing.JTextField();
         txtfiyat = new javax.swing.JTextField();
         churunler = new javax.swing.JComboBox<>();
@@ -57,36 +68,34 @@ public class Anasayfa extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         btnguncelle = new javax.swing.JButton();
         txtfiyat2 = new javax.swing.JTextField();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
+        list1 = new java.awt.List();
         jLabel13 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         btnprogram = new javax.swing.JButton();
         jpstok = new javax.swing.JPanel();
         churunler3 = new javax.swing.JComboBox<>();
         jLabel14 = new javax.swing.JLabel();
-        txtfiyat3 = new javax.swing.JTextField();
+        txtstokgir = new javax.swing.JTextField();
         jLabel15 = new javax.swing.JLabel();
-        btnguncelle2 = new javax.swing.JButton();
+        btnstokgir = new javax.swing.JButton();
         jLabel16 = new javax.swing.JLabel();
-        btnguncelle3 = new javax.swing.JButton();
-        txtfiyat4 = new javax.swing.JTextField();
-        churunler4 = new javax.swing.JComboBox<>();
+        btnstokdus = new javax.swing.JButton();
+        txtstokdus = new javax.swing.JTextField();
+        chstokdus = new javax.swing.JComboBox<>();
         jLabel17 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jList2 = new javax.swing.JList<>();
         jLabel20 = new javax.swing.JLabel();
+        jLabel24 = new javax.swing.JLabel();
+        txtstokmaliyet = new javax.swing.JTextField();
+        list2 = new java.awt.List();
         jprapor = new javax.swing.JPanel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jList3 = new javax.swing.JList<>();
         jLabel21 = new javax.swing.JLabel();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        jList4 = new javax.swing.JList<>();
         jLabel22 = new javax.swing.JLabel();
+        list3 = new java.awt.List();
+        list4 = new java.awt.List();
         jPanel4 = new javax.swing.JPanel();
         jLabel23 = new javax.swing.JLabel();
 
@@ -209,9 +218,6 @@ public class Anasayfa extends javax.swing.JFrame {
 
         Jpurun.setBackground(new java.awt.Color(255, 153, 153));
 
-        jLabel1.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
-        jLabel1.setText("Ürün Kodu :");
-
         jLabel2.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
         jLabel2.setText("Ürün Adı:");
 
@@ -226,8 +232,6 @@ public class Anasayfa extends javax.swing.JFrame {
             }
         });
 
-        txturunkod.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
-
         txturunad.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
 
         txtfiyat.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
@@ -236,6 +240,11 @@ public class Anasayfa extends javax.swing.JFrame {
 
         btnsil.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
         btnsil.setText("Sil");
+        btnsil.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnsilActionPerformed(evt);
+            }
+        });
 
         jLabel4.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
         jLabel4.setText("Ürün Adı:");
@@ -247,6 +256,11 @@ public class Anasayfa extends javax.swing.JFrame {
         jLabel6.setText("Ürün Adı");
 
         btnguncelle1.setText("Güncelle");
+        btnguncelle1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnguncelle1ActionPerformed(evt);
+            }
+        });
 
         txtfiyat1.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
 
@@ -267,15 +281,13 @@ public class Anasayfa extends javax.swing.JFrame {
         jLabel10.setText("Rakam Olarak Fiyat Güncelle");
 
         btnguncelle.setText("Güncelle");
+        btnguncelle.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnguncelleActionPerformed(evt);
+            }
+        });
 
         txtfiyat2.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
-
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane1.setViewportView(jList1);
 
         jLabel11.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
         jLabel11.setText("Ürün Sil");
@@ -293,51 +305,44 @@ public class Anasayfa extends javax.swing.JFrame {
             .addGroup(JpurunLayout.createSequentialGroup()
                 .addGroup(JpurunLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(JpurunLayout.createSequentialGroup()
-                        .addGap(28, 28, 28)
-                        .addGroup(JpurunLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3))
-                        .addGap(18, 18, 18)
+                        .addComponent(jLabel3)
+                        .addGap(38, 38, 38)
                         .addGroup(JpurunLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtfiyat, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txturunad, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txturunkod, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnkaydet, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel4))
+                            .addComponent(btnkaydet, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(JpurunLayout.createSequentialGroup()
                         .addGap(111, 111, 111)
-                        .addComponent(jLabel12)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel12))
+                    .addGroup(JpurunLayout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(18, 18, 18)
+                        .addComponent(txturunad, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel4)))
                 .addGroup(JpurunLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(JpurunLayout.createSequentialGroup()
+                        .addGap(21, 21, 21)
                         .addGroup(JpurunLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(JpurunLayout.createSequentialGroup()
-                                .addGap(15, 15, 15)
-                                .addGroup(JpurunLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(churunler, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel11)
-                                    .addComponent(btnsil, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(jLabel13))
+                            .addComponent(jLabel11)
+                            .addComponent(btnsil, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(JpurunLayout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(churunler, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(3, 3, 3)
+                .addGroup(JpurunLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(JpurunLayout.createSequentialGroup()
+                        .addGap(45, 45, 45)
                         .addGroup(JpurunLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(JpurunLayout.createSequentialGroup()
-                                .addGap(45, 45, 45)
-                                .addGroup(JpurunLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(JpurunLayout.createSequentialGroup()
-                                        .addComponent(jLabel6)
-                                        .addGap(10, 10, 10)
-                                        .addGroup(JpurunLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel9)
-                                            .addComponent(churunler2, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addGroup(JpurunLayout.createSequentialGroup()
-                                        .addComponent(jLabel5)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(txtfiyat2, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addGroup(JpurunLayout.createSequentialGroup()
-                                .addGap(139, 139, 139)
-                                .addComponent(btnguncelle, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel5))
+                        .addGap(10, 10, 10)
+                        .addGroup(JpurunLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtfiyat2, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel9)
+                            .addComponent(churunler2, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(JpurunLayout.createSequentialGroup()
+                        .addGap(139, 139, 139)
+                        .addComponent(btnguncelle, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(JpurunLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, JpurunLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -358,6 +363,15 @@ public class Anasayfa extends javax.swing.JFrame {
                         .addComponent(jLabel10)
                         .addGap(17, 17, 17)))
                 .addGap(68, 68, 68))
+            .addGroup(JpurunLayout.createSequentialGroup()
+                .addGroup(JpurunLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(JpurunLayout.createSequentialGroup()
+                        .addGap(46, 46, 46)
+                        .addComponent(list1, javax.swing.GroupLayout.PREFERRED_SIZE, 405, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(JpurunLayout.createSequentialGroup()
+                        .addGap(62, 62, 62)
+                        .addComponent(jLabel13)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         JpurunLayout.setVerticalGroup(
             JpurunLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -387,42 +401,40 @@ public class Anasayfa extends javax.swing.JFrame {
                             .addComponent(txtfiyat2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addComponent(btnguncelle, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 21, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(JpurunLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(JpurunLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel11)
+                    .addComponent(jLabel12))
                 .addGroup(JpurunLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(JpurunLayout.createSequentialGroup()
-                        .addGap(59, 59, 59)
-                        .addGroup(JpurunLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1)
-                            .addComponent(txturunkod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(JpurunLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(txturunad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(JpurunLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(txtfiyat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(71, 71, 71)
+                        .addComponent(btnsil, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(JpurunLayout.createSequentialGroup()
-                        .addContainerGap()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(JpurunLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel11)
-                            .addComponent(jLabel12))
-                        .addGap(31, 31, 31)
-                        .addGroup(JpurunLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel4)
-                            .addComponent(churunler, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addComponent(btnsil, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(JpurunLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnkaydet, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, JpurunLayout.createSequentialGroup()
-                        .addComponent(jLabel13)
-                        .addGap(8, 8, 8)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(churunler, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4)))
+                    .addGroup(JpurunLayout.createSequentialGroup()
+                        .addGroup(JpurunLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(JpurunLayout.createSequentialGroup()
+                                .addGap(69, 69, 69)
+                                .addGroup(JpurunLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(txtfiyat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel3)))
+                            .addGroup(JpurunLayout.createSequentialGroup()
+                                .addGap(31, 31, 31)
+                                .addGroup(JpurunLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(txturunad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel2))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnkaydet, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(34, 34, 34)
+                .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(list1, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         jPanel5.setBackground(new java.awt.Color(102, 102, 255));
@@ -461,21 +473,31 @@ public class Anasayfa extends javax.swing.JFrame {
         jLabel14.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
         jLabel14.setText("Ürün Adı");
 
-        txtfiyat3.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        txtstokgir.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
 
         jLabel15.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
         jLabel15.setText("Stok Ekle");
 
-        btnguncelle2.setText("Ekle");
+        btnstokgir.setText("Ekle");
+        btnstokgir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnstokgirActionPerformed(evt);
+            }
+        });
 
         jLabel16.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
         jLabel16.setText("Stok Gir");
 
-        btnguncelle3.setText("Ekle");
+        btnstokdus.setText("Ekle");
+        btnstokdus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnstokdusActionPerformed(evt);
+            }
+        });
 
-        txtfiyat4.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        txtstokdus.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
 
-        churunler4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        chstokdus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel17.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
         jLabel17.setText("Stok Düş");
@@ -484,17 +506,15 @@ public class Anasayfa extends javax.swing.JFrame {
         jLabel18.setText("Ürün Adı");
 
         jLabel19.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
-        jLabel19.setText("Stok Ekle");
-
-        jList2.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane2.setViewportView(jList2);
+        jLabel19.setText("Stok");
 
         jLabel20.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
         jLabel20.setText("Stok Listesi");
+
+        jLabel24.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        jLabel24.setText("Maliyet");
+
+        txtstokmaliyet.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
 
         javax.swing.GroupLayout jpstokLayout = new javax.swing.GroupLayout(jpstok);
         jpstok.setLayout(jpstokLayout);
@@ -510,14 +530,19 @@ public class Anasayfa extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jpstokLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(churunler3, 0, 177, Short.MAX_VALUE)
-                            .addComponent(txtfiyat3)))
+                            .addComponent(txtstokgir)))
                     .addGroup(jpstokLayout.createSequentialGroup()
                         .addGap(128, 128, 128)
-                        .addComponent(btnguncelle2, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnstokgir, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jpstokLayout.createSequentialGroup()
                         .addGap(118, 118, 118)
-                        .addComponent(jLabel16)))
-                .addGap(18, 18, 18)
+                        .addComponent(jLabel16))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpstokLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel24)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtstokmaliyet, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, Short.MAX_VALUE)
                 .addGroup(jpstokLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jpstokLayout.createSequentialGroup()
                         .addGroup(jpstokLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -525,18 +550,18 @@ public class Anasayfa extends javax.swing.JFrame {
                             .addComponent(jLabel19))
                         .addGap(18, 18, 18)
                         .addGroup(jpstokLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(churunler4, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtfiyat4, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(chstokdus, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtstokdus, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jpstokLayout.createSequentialGroup()
                         .addGap(89, 89, 89)
-                        .addComponent(btnguncelle3, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnstokdus, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jpstokLayout.createSequentialGroup()
                         .addGap(95, 95, 95)
                         .addComponent(jLabel17)))
                 .addGap(62, 62, 62)
                 .addGroup(jpstokLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel20)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(list2, javax.swing.GroupLayout.PREFERRED_SIZE, 405, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jpstokLayout.setVerticalGroup(
@@ -548,54 +573,42 @@ public class Anasayfa extends javax.swing.JFrame {
                 .addGroup(jpstokLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel14)
                     .addComponent(churunler3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(26, 26, 26)
+                .addGap(18, 18, 18)
                 .addGroup(jpstokLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtfiyat3, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtstokgir, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel15))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jpstokLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtstokmaliyet, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel24))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnguncelle2, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(btnstokgir, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(jpstokLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel17)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jpstokLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel18)
-                    .addComponent(churunler4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(chstokdus, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(26, 26, 26)
                 .addGroup(jpstokLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtfiyat4, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtstokdus, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel19))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
-                .addComponent(btnguncelle3, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnstokdus, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(jpstokLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jpstokLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jpstokLayout.createSequentialGroup()
-                        .addGap(22, 22, 22)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel20))
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addComponent(jLabel20)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(list2, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(25, 25, 25))
         );
 
         jprapor.setBackground(new java.awt.Color(153, 255, 153));
         jprapor.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jList3.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane3.setViewportView(jList3);
-
         jLabel21.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
         jLabel21.setText("Satışlar");
-
-        jList4.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane4.setViewportView(jList4);
 
         jLabel22.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
         jLabel22.setText("Mevcut Durum");
@@ -607,12 +620,14 @@ public class Anasayfa extends javax.swing.JFrame {
             .addGroup(jpraporLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jpraporLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel21)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(140, 140, 140)
-                .addGroup(jpraporLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel22))
+                    .addGroup(jpraporLayout.createSequentialGroup()
+                        .addComponent(jLabel21)
+                        .addGap(409, 409, 409)
+                        .addComponent(jLabel22))
+                    .addGroup(jpraporLayout.createSequentialGroup()
+                        .addComponent(list3, javax.swing.GroupLayout.PREFERRED_SIZE, 405, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(41, 41, 41)
+                        .addComponent(list4, javax.swing.GroupLayout.PREFERRED_SIZE, 405, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jpraporLayout.setVerticalGroup(
@@ -622,11 +637,11 @@ public class Anasayfa extends javax.swing.JFrame {
                 .addGroup(jpraporLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel22)
                     .addComponent(jLabel21))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(26, 26, 26)
                 .addGroup(jpraporLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(44, Short.MAX_VALUE))
+                    .addComponent(list3, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(list4, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(46, Short.MAX_VALUE))
         );
 
         jLabel23.setText("İstanbul Ticaret Üniversitesi Bilgisayar Mühendisliği Tezli Yüksek Lisans Programı Ders projesi olarak yapılmıştır. ");
@@ -652,7 +667,7 @@ public class Anasayfa extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jpstok, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -664,9 +679,11 @@ public class Anasayfa extends javax.swing.JFrame {
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jprapor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(Jpurun, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jprapor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -681,11 +698,11 @@ public class Anasayfa extends javax.swing.JFrame {
                 .addComponent(Jpurun, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jpstok, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(11, 11, 11)
-                .addComponent(jprapor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jprapor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(11, 11, 11)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(77, Short.MAX_VALUE))
+                .addContainerGap(85, Short.MAX_VALUE))
         );
 
         Jpurun.getAccessibleContext().setAccessibleName("");
@@ -693,12 +710,6 @@ public class Anasayfa extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnkaydetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnkaydetActionPerformed
-        // TODO add your handling code here:
-      
-
-    }//GEN-LAST:event_btnkaydetActionPerformed
 
     private void btnurunmenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnurunmenuActionPerformed
       // TODO add your handling code here: 
@@ -735,6 +746,7 @@ public class Anasayfa extends javax.swing.JFrame {
         // TODO add your handling code here:
         if (jprapor.isVisible()) {
             jprapor.setVisible(false);
+            stoklistele(); 
         }
         else{
         jprapor.setVisible(true);   
@@ -742,7 +754,7 @@ public class Anasayfa extends javax.swing.JFrame {
         jpstok.setVisible(false); 
         }   
     }//GEN-LAST:event_btnkazancrapormenuActionPerformed
-
+ 
     private void btnprogramActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnprogramActionPerformed
         // TODO add your handling code here:
         Jpurun.setVisible(false);
@@ -750,12 +762,255 @@ public class Anasayfa extends javax.swing.JFrame {
         jprapor.setVisible(false);
     }//GEN-LAST:event_btnprogramActionPerformed
 
+    private void btnguncelleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnguncelleActionPerformed
+        // TODO add your handling code here:
+        String d=churunler2.getSelectedItem().toString();
+        for(Urunler u:lst){
+            String a=u.ad;
+
+            if( d == null ? a == null : d.equals(a))
+            {
+                Urunler ul=new Urunler();
+                ul.ID=u.ID;
+                ul.ad=u.ad;
+                ul.fiyat=u.fiyat*Double.parseDouble(txtfiyat2.getText())/100;
+                lst.remove(u);
+                lst.add(ul);
+                JOptionPane.showMessageDialog(null,"Güncellendi",
+                    "Uyarı", JOptionPane.CLOSED_OPTION);
+            }
+
+        }
+        listele();
+        //txtfiyat2
+    }//GEN-LAST:event_btnguncelleActionPerformed
+
+    private void btnguncelle1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnguncelle1ActionPerformed
+        // TODO add your handling code here:
+        String d=churunler2.getSelectedItem().toString();
+        for(Urunler u:lst){
+            String a=u.ad;
+
+            if( d == null ? a == null : d.equals(a))
+            {
+                Urunler ul=new Urunler();
+                ul.ID=u.ID;
+                ul.ad=u.ad;
+                ul.fiyat=Double.parseDouble(txtfiyat2.getText());
+                lst.remove(u);
+                lst.add(ul);
+                JOptionPane.showMessageDialog(null,"Güncellendi",
+                    "Uyarı", JOptionPane.CLOSED_OPTION);
+            }
+
+        }
+        listele();
+    }//GEN-LAST:event_btnguncelle1ActionPerformed
+
+    private void btnkaydetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnkaydetActionPerformed
+        // TODO add your handling code here:
+        Urunler yeni = new Urunler();
+        int id=0;
+        for(int i=0;i<lst.size();i++){
+            int d=lst.get(i).ID;
+            if (id<d) {
+                id=d;
+            }
+        }
+        int bayrak=0;
+        String d=txturunad.getText();
+        for(Urunler u:lst){ 
+            String a=u.ad;
+            if( d == null ? a == null : d.equals(a))
+            bayrak=1; 
+        }
+        if (bayrak==0) {
+            id=id+1;
+            yeni.ad=txturunad.getText();
+            yeni.fiyat=Double.parseDouble(txtfiyat.getText());
+            yeni.ID=id;
+            lst.add(yeni);
+            churunler.addItem(yeni.ad);
+            churunler1.addItem(yeni.ad);
+            churunler2.addItem(yeni.ad);
+            churunler3.addItem(yeni.ad);
+            chstokdus.addItem(yeni.ad);
+            listele();
+            /*
+            churunler.removeAllItems(); // ürünsil
+            churunler1.removeAllItems(); // rakam olarak fiyat güncelle
+            churunler2.removeAllItems(); //yüzde olarak fiyat güncelle
+            */
+        }
+        //jList1.setListData((String[]) lst.toArray());
+    }//GEN-LAST:event_btnkaydetActionPerformed
+
+    private void btnstokgirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnstokgirActionPerformed
+        // TODO add your handling code here:
+       Stok yeni = new Stok();
+       int id=0;
+       String d=churunler3.getSelectedItem().toString();
+       int bayrak=0;
+       int a = 0;
+       int var=0; 
+       int sayac=0;
+       int sayac2=0;
+       for(Urunler ne:lst){ 
+                  if (ne.ad.equals(d)) {
+                      a=ne.ID;                              
+                  }
+       }
+       for(Stok u:lststok){  
+             sayac+=1;  
+           if (u.Urunno==a) {
+                  var=1;
+                  sayac2=sayac;
+                yeni.Urunno=a;
+                yeni.cost=Integer.parseInt(txtstokmaliyet.getText());
+                yeni.item+=Integer.parseInt(txtstokgir.getText());
+                lststok.remove(u);
+                lststok.add(yeni);
+              } 
+              
+           }
+        if (var==0) {
+                yeni.Urunno=a;
+                yeni.cost=Integer.parseInt(txtstokmaliyet.getText());
+                yeni.item =Integer.parseInt(txtstokgir.getText()); 
+                lststok.add(yeni);
+        }
+     
+        stoklistele(); 
+    }//GEN-LAST:event_btnstokgirActionPerformed
+
+    private void btnstokdusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnstokdusActionPerformed
+        // TODO add your handling code here: 
+       Stok yeni = new Stok();
+       Stok satis = new Stok();
+       int id=0;
+       double fiyat=0;
+       int adet=0;
+       String d=chstokdus.getSelectedItem().toString();
+       int bayrak=0;
+       int a = 0;
+       int var=0; 
+       int sayac=0;
+       int sayac2=0;
+       for(Urunler ne:lst){ 
+                  if (ne.ad.equals(d)) {
+                      a=ne.ID;   
+                  }
+       }
+       for(Stok u:lststok){  
+             sayac+=1;  
+           if (u.Urunno==a) {
+                var=1;
+                fiyat=u.cost;
+                adet=u.item;
+                sayac2=sayac;
+                    if (adet>=Double.parseDouble(txtstokdus.getText())) {
+                           yeni.Urunno=a;
+                           yeni.cost=fiyat;
+                           yeni.item=adet-Integer.parseInt(txtstokdus.getText());
+                          lststok.remove(u);
+                          lststok.add(yeni);  
+                          satis.Urunno=a;
+                          satis.cost=fiyat;
+                          satis.item=Integer.parseInt(txtstokdus.getText());
+                          lstsatis.add(satis);
+                        }
+                    else{
+                           JOptionPane.showMessageDialog(null,"Adetten fazla stoktan düşülemez",
+                           "Uyarı", JOptionPane.CLOSED_OPTION);
+                        }
+             } 
+              
+           }
+    
+          
+             
+         stoklistele();
+    }//GEN-LAST:event_btnstokdusActionPerformed
+
+    private void btnsilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsilActionPerformed
+            // TODO add your handling code here:
+       Stok yeni = new Stok(); 
+       String d=churunler.getSelectedItem().toString();
+       int bayrak=0;
+       int a = 0;
+       int var=0; 
+       int sayac=0;
+       int sayac2=0;
+       for(Urunler ne:lst){ 
+                  if (ne.ad.equals(d)) {
+                      a=ne.ID;   
+                  }
+       }
+       for(Stok u:lststok){  
+             sayac+=1;  
+           if (u.Urunno==a) {
+                  var=1;
+                
+              } 
+              
+           }
+        if (var==1) {
+              JOptionPane.showMessageDialog(null,"Stokta ürün mevcut silinemez",
+                    "Uyarı", JOptionPane.CLOSED_OPTION);
+        }
+        else{
+            
+            for(Urunler ne:lst){ 
+                  if (ne.ad.equals(d)) {
+                      a=ne.ID;  
+                      lst.remove(ne);
+                      listele();  
+                      JOptionPane.showMessageDialog(null,"Ürün silindi",
+                    "Uyarı", JOptionPane.CLOSED_OPTION);
+                      int index=churunler.getSelectedIndex();
+                      churunler.removeItemAt(index); // ürünsil 
+                      churunler1.removeItemAt(index); // rakam olarak fiyat güncelle
+                      churunler2.removeItemAt(index); //yüzde olarak fiyat güncelle
+                      churunler3.removeItemAt(index); // stok işlemleri
+                      chstokdus.removeItemAt(index); //stok işlemleri
+                  }
+                }
+             }
+       
+    
+    }//GEN-LAST:event_btnsilActionPerformed
+    public void listele(){
+    //list1 ürünler
+     list1.removeAll();
+     for(Urunler u:lst){ 
+         String a="Ad:"+u.ad+" ID:"+String.valueOf(u.ID)+"fiyat:"+String.valueOf(u.fiyat);  
+         list1.add(a);
+        }
+    
+    }
+  public void stoklistele(){
+    //list1 ürünler
+     list2.removeAll();
+     list3.removeAll();
+     list4.removeAll();
+     for(Stok u:lststok){ 
+         String a="Ürün no:"+u.Urunno+" Adet: "+String.valueOf(u.item)+" fiyat: "+String.valueOf(u.cost);  
+         list2.add(a); // stok işlemleri
+         list4.add(a);//mevcut durum kazanç raporu
+        }
+   
+    for(Stok u:lstsatis){ 
+         String a="Ürün no:"+u.Urunno+" Adet: "+String.valueOf(u.item)+" fiyat: "+String.valueOf(u.cost);  
+         list3.add(a); // stok işlemleri 
+        }
+    }
     /**
      * @param args the command line arguments
      */
+      
+      
     public static void main(String args[]) {
-       
-        /* Create and display the form */
+       /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Anasayfa().setVisible(true);
@@ -768,20 +1023,19 @@ public class Anasayfa extends javax.swing.JFrame {
     private javax.swing.JPanel Jpurun;
     private javax.swing.JButton btnguncelle;
     private javax.swing.JButton btnguncelle1;
-    private javax.swing.JButton btnguncelle2;
-    private javax.swing.JButton btnguncelle3;
     private javax.swing.JButton btnkaydet;
     private javax.swing.JButton btnkazancrapormenu;
     private javax.swing.JButton btnprogram;
     private javax.swing.JButton btnsil;
+    private javax.swing.JButton btnstokdus;
+    private javax.swing.JButton btnstokgir;
     private javax.swing.JButton btnstokmenu;
     private javax.swing.JButton btnurunmenu;
+    private javax.swing.JComboBox<String> chstokdus;
     private javax.swing.JComboBox<String> churunler;
     private javax.swing.JComboBox<String> churunler1;
     private javax.swing.JComboBox<String> churunler2;
     private javax.swing.JComboBox<String> churunler3;
-    private javax.swing.JComboBox<String> churunler4;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -797,6 +1051,7 @@ public class Anasayfa extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -804,10 +1059,6 @@ public class Anasayfa extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JList<String> jList1;
-    private javax.swing.JList<String> jList2;
-    private javax.swing.JList<String> jList3;
-    private javax.swing.JList<String> jList4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -815,18 +1066,20 @@ public class Anasayfa extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JPanel jprapor;
     private javax.swing.JPanel jpstok;
+    private java.awt.List list1;
+    private java.awt.List list2;
+    private java.awt.List list3;
+    private java.awt.List list4;
     private javax.swing.JTextField txtfiyat;
     private javax.swing.JTextField txtfiyat1;
     private javax.swing.JTextField txtfiyat2;
-    private javax.swing.JTextField txtfiyat3;
-    private javax.swing.JTextField txtfiyat4;
+    private javax.swing.JTextField txtstokdus;
+    private javax.swing.JTextField txtstokgir;
+    private javax.swing.JTextField txtstokmaliyet;
     private javax.swing.JTextField txturunad;
-    private javax.swing.JTextField txturunkod;
     // End of variables declaration//GEN-END:variables
+
+   
 }
